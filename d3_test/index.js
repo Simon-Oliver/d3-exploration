@@ -3,13 +3,38 @@ const svg = d3.select('svg');
 const width = +svg.attr('width');
 const height = +svg.attr('height');
 
+const dateArr = (start, end) => {
+  let years = end - start;
+  let year = start;
+  let yearArray = [];
+  while (years >= 0) {
+    yearArray.push(year);
+    year++;
+    years--;
+  }
+  return yearArray;
+};
+
+// prettier-ignore
+const render = data => {
+  svg.selectAll('rect').data(data)
+    .enter().append('rect')
+    .attr('width', 300)
+    .attr('height', 300);
+};
+
 d3.csv('./population.csv').then(data => {
-  data.forEach(d => {
-    if (d.Year === '2016') {
-      console.log(d['Country Name'], d.Year, d.Value);
+  const filtered = data.filter(d => {
+    if (d.Year >= 2000 && d.Year <= 2017) {
+      return d;
+      // render(d.year);
     }
   });
+  console.log(filtered);
+  render(data);
 });
+
+console.log(dateArr(2000, 2017));
 
 // d3.selectAll('p').style('color', 'blue');
 
