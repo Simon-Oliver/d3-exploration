@@ -17,6 +17,17 @@ const dateArr = (start, end) => {
 
 // prettier-ignore
 const render = data => {
+  const xScale = d3.scaleLinear()
+  .domain([0, d3.max(data, d => Number(d.Value))])
+
+  console.log(xScale.domain())
+
+  data.forEach(e => {
+    if(isNaN(e.Value)){
+      console.log(e)
+    }
+  });
+
   svg.selectAll('rect').data(data)
     .enter().append('rect')
     .attr('width', 300)
