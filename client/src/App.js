@@ -3,14 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
+  state = {
+    lat: '',
+    long: ''
+  };
+
   componentDidMount() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getPosition);
-    }
-    function getPosition(position) {
-      console.log(position.coords.latitude, position.coords.longitude);
+      navigator.geolocation.watchPosition(this.getPosition);
     }
   }
+
+  getPosition = position => {
+    this.setState({ lat: position.coords.latitude, long: position.coords.longitude });
+  };
 
   render() {
     return (
@@ -28,8 +34,8 @@ class App extends React.Component {
           >
             Learn React
           </a>
-          <h2>Temperature</h2>
-          <button onClick={console.log(this.usePosition)}></button>
+          <h2>Lat: {this.state.lat}</h2>
+          <h2>Long: {this.state.long}</h2>
         </header>
       </div>
     );
